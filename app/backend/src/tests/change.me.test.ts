@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('Seu teste', () => {
+describe('Cobre 5% dos arquivos back-end', () => {
   /**
    * Exemplo do uso de stubs com tipos
    */
