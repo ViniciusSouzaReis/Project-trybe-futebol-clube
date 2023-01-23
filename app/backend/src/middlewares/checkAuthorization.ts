@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import JWT from './JWT';
+import JWT from '../auth/JWT';
 
 const jwt = new JWT();
 
-const checkAuth = (req: Request, res: Response, next: NextFunction) => {
+const checkAuthorization = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -15,4 +15,4 @@ const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   return next();
 };
 
-export default checkAuth;
+export default checkAuthorization;

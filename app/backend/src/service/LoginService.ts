@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
-import criptPassword from '../middlewares/criptPassword';
+import criptPassword from '../auth/criptPassword';
 import UserModel from '../database/models/User.Model';
-import JWT from '../middlewares/JWT';
+import JWT from '../auth/JWT';
 import { Login } from '../interfaces/Login.interface';
 
 class LoginService {
