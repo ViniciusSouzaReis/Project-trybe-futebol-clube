@@ -4,6 +4,7 @@ import MatchesController from '../controller/Match.controller';
 const router = Router();
 const matchesController = new MatchesController();
 
-router.get('/', matchesController.getAll.bind(matchesController));
+router.get('/', matchesController.getAll);
+router.post('/', matchesController.getAll.bind(matchesController));
 
 export default router;

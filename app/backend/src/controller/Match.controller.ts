@@ -9,7 +9,6 @@ class MatchesController {
 
     if (inProgress === 'true') {
       const searchMatchInProgress = await this._serviceMatches.matchesInProgress();
-
       res.status(200).json(searchMatchInProgress);
     }
 
@@ -18,8 +17,10 @@ class MatchesController {
       res.status(200).json(searchMatchFinished);
     }
 
-    const serviceReturn = await this._serviceMatches.findAllMatches();
-    return res.status(200).json(serviceReturn);
+    if (!inProgress) {
+      const serviceReturn = await this._serviceMatches.findAllMatches();
+      return res.status(200).json(serviceReturn);
+    }
   };
 }
 
