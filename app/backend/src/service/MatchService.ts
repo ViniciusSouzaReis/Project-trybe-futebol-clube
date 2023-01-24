@@ -40,6 +40,10 @@ class MatchService {
 
     return createNewMatch;
   }
+
+  async finishMatch(id: number) {
+    await this._matchInfo.update({ inProgress: false }, { where: { id } });
+  }
 }
 
 export default MatchService;
