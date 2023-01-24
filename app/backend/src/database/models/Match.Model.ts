@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import connection from '.';
-import TeamsModel from './Team.Model';
 
 class MatchModel extends Model {
   declare id: number;
@@ -8,6 +7,7 @@ class MatchModel extends Model {
   declare role: string;
   declare email: string;
   declare password: string;
+  declare inProgress: boolean;
 }
 
 MatchModel.init({
@@ -43,10 +43,5 @@ MatchModel.init({
     field: 'in_progress',
   },
 }, { sequelize: connection, underscored: true, tableName: 'matches', timestamps: false });
-
-MatchModel.belongsTo(TeamsModel);
-
-TeamsModel.hasMany(MatchModel, { foreignKey: 'homeTeamId', as: 'hometeam' });
-TeamsModel.hasMany(MatchModel, { foreignKey: 'awayTeamId', as: 'awayteam' });
 
 export default MatchModel;
