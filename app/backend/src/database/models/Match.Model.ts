@@ -2,12 +2,12 @@ import { DataTypes, Model } from 'sequelize';
 import connection from '.';
 
 class MatchModel extends Model {
-  declare id: number;
-  declare username: string;
-  declare role: string;
-  declare email: string;
-  declare password: string;
-  declare inProgress: boolean;
+  declare id?: number;
+  declare homeTeamId: string;
+  declare homeTeamGoals: number;
+  declare awayTeamId: string;
+  declare awayTeamGoals: number;
+  declare inProgress?: boolean;
 }
 
 MatchModel.init({

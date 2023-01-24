@@ -1,3 +1,4 @@
+import { NewMatch } from '../interfaces/Match.interface';
 import MatchModel from '../database/models/Match.Model';
 import TeamsModel from '../database/models/Team.Model';
 
@@ -26,6 +27,18 @@ class MatchService {
     const getAll = await this.findAllMatches();
     const filterMatchFinished = getAll.filter((match) => match.inProgress === false);
     return filterMatchFinished;
+  }
+
+  async createMatch(info: NewMatch) {
+    const createNewMatch = await this._matchInfo.create({
+      homeTeamId: info.homeTeamId,
+      awayTeamId: info.awayTeamId,
+      homeTeamGoals: info.homeTeamGoals,
+      awayTeamGoals: info.awayTeamGoals,
+      inProgress: true,
+    });
+
+    return createNewMatch;
   }
 }
 

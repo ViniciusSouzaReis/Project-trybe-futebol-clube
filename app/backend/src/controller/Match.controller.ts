@@ -1,8 +1,12 @@
 import { RequestHandler } from 'express';
 import MatchService from '../service/MatchService';
+// import JWT from '../auth/JWT';
 
 class MatchesController {
-  constructor(private _serviceMatches = new MatchService()) {}
+  constructor(
+    private _serviceMatches = new MatchService(),
+    // private _jwt = new JWT(),
+  ) {}
 
   getAll: RequestHandler = async (req, res) => {
     const { inProgress } = req.query;
@@ -21,6 +25,14 @@ class MatchesController {
       const serviceReturn = await this._serviceMatches.findAllMatches();
       return res.status(200).json(serviceReturn);
     }
+  };
+
+  createMatch: RequestHandler = async (req, res) => {
+    const { body } = req;
+
+    const createMatch = await this._serviceMatches.createMatch(body);
+
+    return res.status(201).json(createMatch);
   };
 }
 
