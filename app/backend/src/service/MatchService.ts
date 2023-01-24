@@ -15,6 +15,18 @@ class MatchService {
     });
     return getAll;
   }
+
+  async matchesInProgress() {
+    const getAll = await this.findAllMatches();
+    const filterMatchInProgress = getAll.filter((match) => match.inProgress === true);
+    return filterMatchInProgress;
+  }
+
+  async finishedMatches() {
+    const getAll = await this.findAllMatches();
+    const filterMatchFinished = getAll.filter((match) => match.inProgress === false);
+    return filterMatchFinished;
+  }
 }
 
 export default MatchService;

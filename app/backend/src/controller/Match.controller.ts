@@ -8,15 +8,14 @@ class MatchesController {
     const { inProgress } = req.query;
 
     if (inProgress === 'true') {
-      const searchAll = await this._serviceMatches.findAllMatches();
-      const filterDataInProgress = searchAll.filter((match) => match.inProgress === true);
-      res.status(200).json(filterDataInProgress);
+      const searchMatchInProgress = await this._serviceMatches.matchesInProgress();
+
+      res.status(200).json(searchMatchInProgress);
     }
 
     if (inProgress === 'false') {
-      const searchAll = await this._serviceMatches.findAllMatches();
-      const filterDataFinished = searchAll.filter((match) => match.inProgress === false);
-      res.status(200).json(filterDataFinished);
+      const searchMatchFinished = await this._serviceMatches.finishedMatches();
+      res.status(200).json(searchMatchFinished);
     }
 
     const serviceReturn = await this._serviceMatches.findAllMatches();
