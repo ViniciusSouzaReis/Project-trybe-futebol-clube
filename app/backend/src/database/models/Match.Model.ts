@@ -3,9 +3,9 @@ import connection from '.';
 
 class MatchModel extends Model {
   declare id?: number;
-  declare homeTeamId: string;
+  declare homeTeamId: number;
   declare homeTeamGoals: number;
-  declare awayTeamId: string;
+  declare awayTeamId: number;
   declare awayTeamGoals: number;
   declare inProgress?: boolean;
 }
@@ -15,26 +15,26 @@ MatchModel.init({
     allowNull: false,
     autoIncrement: true,
     primaryKey: true,
-    type: DataTypes.INTEGER,
+    type: DataTypes.NUMBER,
   },
   homeTeamId: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.NUMBER,
     field: 'home_team_id',
   },
   homeTeamGoals: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.NUMBER,
     field: 'home_team_goals',
   },
   awayTeamId: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.NUMBER,
     field: 'away_team_id',
   },
   awayTeamGoals: {
     allowNull: false,
-    type: DataTypes.INTEGER,
+    type: DataTypes.NUMBER,
     field: 'away_team_goals',
   },
   inProgress: {
