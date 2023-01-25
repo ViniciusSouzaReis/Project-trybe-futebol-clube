@@ -3,7 +3,7 @@ import MatchModel from '../database/models/Match.Model';
 import TeamsModel from '../database/models/Team.Model';
 
 class MatchService {
-  constructor(private _matchInfo = MatchModel) {}
+  constructor(private _matchInfo = MatchModel, private _teamInfo = TeamsModel) {}
 
   async findAllMatches() {
     const getAll = await this._matchInfo.findAll({
@@ -29,7 +29,18 @@ class MatchService {
     return filterMatchFinished;
   }
 
+  async findOneTeam(id: number) {
+    const result = await this._teamInfo.findOne({ where: { id } });
+    return result;
+  }
+
   async createMatch(info: NewMatch) {
+    const homeTeam = await this.findOneTeam(info.homeTeamId);
+    const awayTeam = await this.findOneTeam(info.awayTeamId);
+
+    if (!homeTeam || !awayTeam) {
+      return ({ status: 404, message: { message: 'There is no team with such id!' } });
+    }
     const createNewMatch = await this._matchInfo.create({
       homeTeamId: info.homeTeamId,
       awayTeamId: info.awayTeamId,
@@ -38,7 +49,7 @@ class MatchService {
       inProgress: true,
     });
 
-    return createNewMatch;
+    return { status: 200, message: createNewMatch };
   }
 
   async finishMatch(id: number) {

@@ -36,9 +36,8 @@ class MatchesController {
       });
     }
 
-    const createMatch = await this._serviceMatches.createMatch(body);
-
-    return res.status(201).json(createMatch);
+    const { status, message } = await this._serviceMatches.createMatch(body);
+    return res.status(status).json(message);
   };
 
   finishMatch: RequestHandler = async (req, res) => {
