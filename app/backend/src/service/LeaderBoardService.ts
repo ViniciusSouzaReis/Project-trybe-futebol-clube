@@ -58,7 +58,7 @@ const createLeaderBoardHome = async () => {
     newteam = teamStatistics();
     calculateHome(matchesFinished, team);
     newteam.goalsBalance = newteam.goalsFavor - newteam.goalsOwn;
-    newteam.efficiency = ((newteam.totalPoints / ((newteam.totalGames * 3) * 100)) * 10000)
+    newteam.efficiency = ((newteam.totalPoints / (newteam.totalGames * 3)) * 100)
       .toFixed(2);
     leaderBoard.push(newteam);
   });
