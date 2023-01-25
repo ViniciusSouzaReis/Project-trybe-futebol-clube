@@ -29,16 +29,17 @@ class MatchService {
     return filterMatchFinished;
   }
 
-  async findOneTeam(id: number) {
-    const result = await this._teamInfo.findOne({ where: { id } });
+  async findAllTeams() {
+    const result = await this._teamInfo.findAll();
     return result;
   }
 
   async createMatch(info: NewMatch) {
-    const homeTeam = await this.findOneTeam(info.homeTeamId);
-    const awayTeam = await this.findOneTeam(info.awayTeamId);
+    const allteams = await this.findAllTeams();
+    const homeTeam = allteams.filter((team) => team.id === info.homeTeamId);
+    const awayTeam = allteams.filter((team) => team.id === info.awayTeamId);
 
-    if (!homeTeam || !awayTeam) {
+    if (homeTeam.length === 0 || awayTeam.length === 0) {
       return ({ status: 404, message: { message: 'There is no team with such id!' } });
     }
     const createNewMatch = await this._matchInfo.create({
@@ -49,7 +50,7 @@ class MatchService {
       inProgress: true,
     });
 
-    return { status: 200, message: createNewMatch };
+    return { status: 201, message: createNewMatch };
   }
 
   async finishMatch(id: number) {
