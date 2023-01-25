@@ -4,7 +4,7 @@ import TeamsController from '../controller/Teams.controller';
 const router = Router();
 const teamsController = new TeamsController();
 
-router.get('/', teamsController.getAll.bind(teamsController));
-router.get('/:id', teamsController.findOneTeam.bind(teamsController));
+router.get('/', teamsController.getAll);
+router.get('/:id', teamsController.findOneTeam);
 
 export default router;

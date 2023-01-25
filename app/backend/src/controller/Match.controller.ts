@@ -56,6 +56,15 @@ class MatchesController {
 
     return res.status(200).json({ message: 'Finished' });
   };
+
+  updateScore: RequestHandler = async (req, res) => {
+    const { id } = req.params;
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+
+    await this._serviceMatches.updateScore(Number(id), homeTeamGoals, awayTeamGoals);
+
+    return res.status(200).json({ message: 'Score updated!' });
+  };
 }
 
 export default MatchesController;

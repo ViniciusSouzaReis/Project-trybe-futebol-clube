@@ -6,7 +6,7 @@ import LoginController from '../controller/Login.controller';
 const router = Router();
 const loginController = new LoginController();
 
-router.post('/', loginValidator, loginController.login.bind(loginController));
-router.get('/validate', checkAuthorization, loginController.checkRole.bind(loginController));
+router.post('/', loginValidator, loginController.login);
+router.get('/validate', checkAuthorization, loginController.checkRole);
 
 export default router;

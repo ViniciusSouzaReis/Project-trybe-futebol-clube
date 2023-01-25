@@ -61,6 +61,11 @@ class MatchService {
   async finishMatch(id: number) {
     await this._matchInfo.update({ inProgress: false }, { where: { id } });
   }
+
+  async updateScore(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    await this._matchInfo.update({ homeTeamGoals }, { where: { id } });
+    await this._matchInfo.update({ awayTeamGoals }, { where: { id } });
+  }
 }
 
 export default MatchService;
