@@ -28,4 +28,5 @@ describe('Cobertura dos requisitos de Login', () => {
     expect(result.status).to.be.equal(200);
     expect(result.body).to.be.equal(TeamsMock[4]);
   });
+  
 })

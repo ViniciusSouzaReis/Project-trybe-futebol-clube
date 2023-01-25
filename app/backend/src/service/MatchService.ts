@@ -1,9 +1,14 @@
 import { NewMatch } from '../interfaces/Match.interface';
 import MatchModel from '../database/models/Match.Model';
 import TeamsModel from '../database/models/Team.Model';
+import JWT from '../auth/JWT';
 
 class MatchService {
-  constructor(private _matchInfo = MatchModel, private _teamInfo = TeamsModel) {}
+  constructor(
+    private _matchInfo = MatchModel,
+    private _teamInfo = TeamsModel,
+    private _jwt = new JWT(),
+  ) {}
 
   async findAllMatches() {
     const getAll = await this._matchInfo.findAll({

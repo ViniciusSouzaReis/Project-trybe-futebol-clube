@@ -1,12 +1,11 @@
 import { RequestHandler } from 'express';
 import MatchService from '../service/MatchService';
-// import JWT from '../auth/JWT';
+import JWT from '../auth/JWT';
 
 class MatchesController {
   constructor(
     private _serviceMatches = new MatchService(),
-    // private _jwt = new JWT(),
-    // for lint
+    private _jwt = new JWT(),
   ) {}
 
   getAll: RequestHandler = async (req, res) => {
@@ -29,16 +28,25 @@ class MatchesController {
   };
 
   createMatch: RequestHandler = async (req, res) => {
-    const { body } = req;
+    const { body, headers } = req;
+    const { authorization } = headers;
 
-    if (body.homeTeamId === body.awayTeamId) {
-      return res.status(422).json({
-        message: 'It is not possible to create a match with two equal teams',
-      });
+    if (authorization) {
+      try {
+        this._jwt.checkToken(authorization);
+        if (body.homeTeamId === body.awayTeamId) {
+          return res.status(422).json({
+            message: 'It is not possible to create a match with two equal teams',
+          });
+        }
+        const { status, message } = await this._serviceMatches.createMatch(body);
+        return res.status(status).json(message);
+      } catch {
+        res.status(401).json({ message: 'Token must be a valid token' });
+      }
+    } else {
+      res.status(401).json({ message: 'token is required' });
     }
-
-    const { status, message } = await this._serviceMatches.createMatch(body);
-    return res.status(status).json(message);
   };
 
   finishMatch: RequestHandler = async (req, res) => {
