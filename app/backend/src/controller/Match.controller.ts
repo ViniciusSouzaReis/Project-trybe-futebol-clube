@@ -6,6 +6,7 @@ class MatchesController {
   constructor(
     private _serviceMatches = new MatchService(),
     // private _jwt = new JWT(),
+    // for lint
   ) {}
 
   getAll: RequestHandler = async (req, res) => {
