@@ -43,6 +43,26 @@ class LeaderBoardService {
     });
   }
 
+  private calculateAway(matchFinished: MatchModel[], team: TeamsModel) {
+    this.newTeam.name = team.teamName;
+    matchFinished.forEach((e) => {
+      if (team.id === e.awayTeamId) {
+        this.newTeam.goalsFavor += e.awayTeamGoals;
+        this.newTeam.goalsOwn += e.homeTeamGoals;
+        this.newTeam.totalGames += 1;
+        if (e.awayTeamGoals > e.homeTeamGoals) {
+          this.newTeam.totalPoints += 3;
+          this.newTeam.totalVictories += 1;
+        } else if (e.awayTeamGoals === e.homeTeamGoals) {
+          this.newTeam.totalPoints += 1;
+          this.newTeam.totalDraws += 1;
+        } else {
+          this.newTeam.totalLosses += 1;
+        }
+      }
+    });
+  }
+
   private newIndividual() {
     this.newTeam = {
       name: '',
@@ -76,6 +96,23 @@ class LeaderBoardService {
     allTeams.forEach((team) => {
       this.newIndividual();
       this.calculateHome(matchesFinished, team);
+      this.newTeam.goalsBalance = this.newTeam.goalsFavor - this.newTeam.goalsOwn;
+      this.newTeam.efficiency = ((this.newTeam.totalPoints / (this.newTeam.totalGames * 3)) * 100)
+        .toFixed(2);
+      this.leaderboard.push(this.newTeam);
+    });
+    const boardSort = this.sortTeamsLeaders();
+    this.leaderboard = [];
+    return boardSort;
+  }
+
+  async createLeaderBoardAway() {
+    const allTeams = await this._teamInfo.findAll();
+    const matchesFinished = await this._matchInfo.findAll({ where: { inProgress: false } });
+
+    allTeams.forEach((team) => {
+      this.newIndividual();
+      this.calculateAway(matchesFinished, team);
       this.newTeam.goalsBalance = this.newTeam.goalsFavor - this.newTeam.goalsOwn;
       this.newTeam.efficiency = ((this.newTeam.totalPoints / (this.newTeam.totalGames * 3)) * 100)
         .toFixed(2);
