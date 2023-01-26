@@ -1,11 +1,13 @@
-import { Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import LeaderBoardService from '../service/LeaderBoardService';
 
-const leaderBoard = async (req: Request, res: Response) => {
-  const result = await LeaderBoardService.createLeaderBoardHome();
-  return res.status(200).json(result);
-};
+class LeaderBoardController {
+  constructor(private _leaderboardService = new LeaderBoardService()) {}
 
-export default {
-  leaderBoard,
-};
+  getHomeLeaderBoard: RequestHandler = async (req, res) => {
+    const homeLeaderBoard = await this._leaderboardService.createLeaderBoardHome();
+    return res.status(200).json(homeLeaderBoard);
+  };
+}
+
+export default LeaderBoardController;
