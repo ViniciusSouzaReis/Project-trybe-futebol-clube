@@ -122,6 +122,23 @@ class LeaderBoardService {
     this.leaderboard = [];
     return boardSort;
   }
+
+  async createOverallLeadeboard() {
+    const allTeams = await this._teamInfo.findAll();
+    const matchesFinished = await this._matchInfo.findAll({ where: { inProgress: false } });
+    allTeams.forEach((team) => {
+      this.newIndividual();
+      this.calculateAway(matchesFinished, team);
+      this.calculateHome(matchesFinished, team);
+      this.newTeam.goalsBalance = this.newTeam.goalsFavor - this.newTeam.goalsOwn;
+      this.newTeam.efficiency = ((this.newTeam.totalPoints / (this.newTeam.totalGames * 3)) * 100)
+        .toFixed(2);
+      this.leaderboard.push(this.newTeam);
+    });
+    const boardSort = this.sortTeamsLeaders();
+    this.leaderboard = [];
+    return boardSort;
+  }
 }
 
 export default LeaderBoardService;
